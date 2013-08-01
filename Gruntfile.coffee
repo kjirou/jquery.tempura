@@ -15,7 +15,7 @@ module.exports = (grunt) ->
 
     constants:
       js:
-        src: '<%= pkg.main %>'
+        src: 'jquery.tempura.js'
         test: 'development/assets/mocha-tests.js'
       jqueries: [
         'development/assets/vendor/jquery-2.0.3.min.js'
@@ -93,3 +93,4 @@ module.exports = (grunt) ->
 
   # Shortcuts
   grunt.registerTask 'default', 'test'
+  grunt.registerTask 'h', 'jshint'
