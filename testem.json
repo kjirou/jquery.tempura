@@ -1,0 +1,4 @@
+{
+  "framework": "mocha",
+  "test_page": "development/index.html"
+}

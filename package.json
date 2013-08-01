@@ -1,0 +1,30 @@
+{
+  "name": "jquery.tempura",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kjirou/jquery.tempura"
+  },
+  "private": true,
+  "description": "",
+  "version": "0.0.1",
+  "author": "kjirou",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-notify": "*",
+    "grunt-testem": "*",
+    "grunt-text-replace": "*",
+    "mocha": "*",
+    "expect.js": "*",
+    "sinon": "*"
+  },
+  "scripts": {
+    "test": "grunt testem:main"
+  }
+}
