@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - "0.11"
+
+before_install:
+  - npm install -g grunt-cli testem
+
+before_script:
+  - testem launchers
+
+script:
+  - grunt travis
+
+branches:
+  except:
+    - gh-pages
