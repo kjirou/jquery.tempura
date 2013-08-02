@@ -142,7 +142,7 @@ Tempura._apis.render = function(data){
       $node.hide();
     // Undefined, Null
     } else if (dataValue === undefined || dataValue === null) {
-      /* Pass rendering */
+      /* Pass processing, silence is gold */
     // Function
     } else if ($.isFunction(dataValue)) {
       throw new Error("Not implemented");
