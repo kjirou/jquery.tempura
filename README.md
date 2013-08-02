@@ -61,7 +61,7 @@ In the same way you would make a delicious :fried_shrimp: Tempura :fried_shrimp:
 
 ### 1. Basic rendering
 
-In source:
+Before:
 ```
 <div class="welcome-page">
   <h1 data-bind="title">Title</h1>
@@ -77,7 +77,7 @@ $(".welcome-page").tempura({
 </script>
 ```
 
-In display:
+After:
 ```
 <div class="welcome-page">
   <h1 data-bind="title">Changed Title</h1>
@@ -88,11 +88,11 @@ In display:
 
 - The `data-bind="dataKey"` is related to `$(selector).tempura({ dataKey:".." })`.
 - `string` or `number` values changes node by `$node.text(value)`.
-- If you don't assign to binded node, then the node is not effected.
+- If you don't assign data to binded node, then the node is not effected.
 
 ### 2. Change visiblity
 
-In source:
+Before:
 ```
 <div class="welcome-page">
   <h1 data-bind="title">Title</h1>
@@ -106,10 +106,11 @@ $(".welcome-page").tempura({
 </script>
 ```
 
-In display:
+After:
 ```
 <div class="welcome-page">
   <h1 data-bind="title">Title</h1>
+  <p data-bind="contents" style="display:none;">Contents</p>
 </div>
 ```
 
@@ -117,7 +118,7 @@ In display:
 
 ### 3. Change as a jQuery object
 
-In source:
+Before:
 ```
 <div class="login-page">
   <a data-bind="login-link" href="#">Logged in</a>
@@ -135,7 +136,7 @@ $(".login-page").tempura({
 </script>
 ```
 
-In display:
+After:
 ```
 <div class="login-page">
   <a data-bind="login-link" href="/login"
@@ -143,6 +144,62 @@ In display:
     class="link-style">Logged in, hurry!</a>
 </div>
 ```
+
+- `{} (Plain object)` means that node is changed as jQeury object.
+- The format is `{ methodName: args, methodName2: args2, .. }`.
+  - The `args` besides `Array` is passed to method as a single arg.
+  - If `args` is `Array`, then they are passed to method as plural args.
+
+### 4. Render HTML
+
+Before:
+```
+<div class="some-page">
+  <div data-bind="parent"><p>Child</p></div>
+</div>
+
+<script>
+$(".some-page").tempura({
+  parent: $('<p>').text("New child")
+});
+</script>
+```
+
+After:
+```
+<div class="some-page">
+  <div data-bind="parent"><p>New child</p></div>
+</div>
+```
+
+- `$jQueryObject` means `$node.empty().append($jQueryObject)`.
+- To be exact, there is no way to write the HTML.
+
+### 5. Dynamic evaluation
+
+Before:
+```
+<div class="some-page">
+  <span data-bind="timer"></span>
+</div>
+
+<script>
+$(".some-page").tempura({
+  timer: function(){
+    return new Date();
+  }
+});
+</script>
+```
+
+After:
+```
+<div class="some-page">
+  <span data-bind="timer">Fri Aug 02 2013 21:55:40 GMT+0900 (JST)</span>
+</div>
+```
+
+- `Function` is evaluated every rendering.
 
 
 ## Development
