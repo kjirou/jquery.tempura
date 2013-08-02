@@ -167,13 +167,15 @@ describe("APIs", function(){
       var $doc = createDocument();
       $doc.tempura("render", {
         link: {
-          css: { fontSize:12, color:"red" },
+          // Notice: If you set `color:"red"` as test case,
+          //           then Firefox just only returns "rgb(255, 0, 0)".
+          css: { fontSize:12, textAlign:"center" },
           attr: ["href", "/foo"],
           addClass: "your-link"
         }
       });
       expect($doc.find("a").css("fontSize")).to.be("12px");
-      expect($doc.find("a").css("color")).to.be("red");
+      expect($doc.find("a").css("textAlign")).to.be("center");
       expect($doc.find("a").attr("href")).to.be("/foo");
       expect($doc.find("a").hasClass("your-link")).to.ok();
     });
