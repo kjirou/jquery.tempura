@@ -49,6 +49,102 @@ In the same way you would make a delicious :fried_shrimp: Tempura :fried_shrimp:
 [MIT License](http://opensource.org/licenses/mit-license.php)
 
 
+## Installation
+
+```
+<script src="path/to/jquery.js"></script>
+<script src="path/to/jquery.tempura.js"></script>
+```
+
+
+## Examples
+
+### 1. Basic rendering
+
+In source:
+```
+<div class="welcome-page">
+  <h1 data-bind="title">Title</h1>
+  <p data-bind="contents">Contents</p>
+  <p data-bind="footer">Footer</p>
+</div>
+
+<script>
+$(".welcome-page").tempura({
+  title: "Canged Title",
+  contents: "Changed contents"
+});
+</script>
+```
+
+In display:
+```
+<div class="welcome-page">
+  <h1 data-bind="title">Changed Title</h1>
+  <p data-bind="contents">Changed contents</p>
+  <p data-bind="footer">Footer</p>
+</div>
+```
+
+- The `data-bind="dataKey"` is related to `$(selector).tempura({ dataKey:".." })`.
+- `string` or `number` values changes node by `$node.text(value)`.
+- If you don't assign to binded node, then the node is not effected.
+
+### 2. Change visiblity
+
+In source:
+```
+<div class="welcome-page">
+  <h1 data-bind="title">Title</h1>
+  <p data-bind="contents">Contents</p>
+</div>
+
+<script>
+$(".welcome-page").tempura({
+  contents: false
+});
+</script>
+```
+
+In display:
+```
+<div class="welcome-page">
+  <h1 data-bind="title">Title</h1>
+</div>
+```
+
+- `true` means `$node.show()`, `false` means `$node.hide()`.
+
+### 3. Change as a jQuery object
+
+In source:
+```
+<div class="login-page">
+  <a data-bind="login-link" href="#">Logged in</a>
+</div>
+
+<script>
+$(".login-page").tempura({
+  title: {
+    css: { fontSize:12, textAlign:"center" },
+    attr: ["href", "/login"],
+    addClass: "link-style",
+    text: "Logged in, hurry!"
+  }
+});
+</script>
+```
+
+In display:
+```
+<div class="login-page">
+  <a data-bind="login-link" href="/login"
+    style="font-size:12px; text-align:center;"
+    class="link-style">Logged in, hurry!</a>
+</div>
+```
+
+
 ## Development
 
 ### Dependencies
