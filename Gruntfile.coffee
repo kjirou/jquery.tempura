@@ -90,8 +90,8 @@ module.exports = (grunt) ->
         ]
         overwrite: true
         replacements: [
-          from: /(['"])0\.9\.0(['"])/
-          to: '$10.9.1$2'
+          from: /(['"])0\.9\.1(['"])/
+          to: '$10.9.2$2'
         ]
       jq_test_runners:
         src: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'

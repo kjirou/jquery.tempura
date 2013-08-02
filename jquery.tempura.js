@@ -5,7 +5,7 @@ if ($.fn.tempura !== undefined) return;
 
 var Tempura = {
 
-  VERSION: "0.9.1",
+  VERSION: "0.9.2",
 
   // Use "config" API if you want to overwrite them.
   _config: {
