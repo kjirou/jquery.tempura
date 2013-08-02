@@ -2,6 +2,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-concat'
+  grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
@@ -18,14 +19,21 @@ module.exports = (grunt) ->
         src: 'jquery.tempura.js'
         test: 'development/assets/mocha-tests.js'
       jqueries: [
-        'development/assets/vendor/jquery-2.0.3.min.js'
-        'development/assets/vendor/jquery-1.10.2.min.js'
-        'development/assets/vendor/jquery-1.9.1.min.js'
-        'development/assets/vendor/jquery-1.8.3.min.js'
+        'assets/jquery-1.10.2.min.js'
+        'assets/jquery-1.9.1.min.js'
+        'assets/jquery-1.8.3.min.js'
+        'assets/jquery-2.0.3.min.js'
       ]
+      index: 'development/index.html'
       builded:
         js:
           minified: 'jquery.tempura.min.js'
+        jq_test_runners: [
+          'development/jquery-1.10.2.html'
+          'development/jquery-1.9.1.html'
+          'development/jquery-1.8.3.html'
+          'development/jquery-2.0.3.html'
+        ]
 
     uglify:
       production:
@@ -33,14 +41,13 @@ module.exports = (grunt) ->
           '<%= constants.builded.js.minified %>': '<%= constants.js.src %>'
 
     testem:
-      _src: 'development/index.html'
       _dest: 'log/tests.tap'
 
       options:
         launch_in_ci: ['PhantomJS']
 
       main:
-        src: '<%= testem._src %>'
+        src: '<%= constants.index %>'
         dest: '<%= testem._dest %>'
 
       xb:
@@ -51,11 +58,29 @@ module.exports = (grunt) ->
             'Firefox'
             'Safari'
           ]
-        src: '<%= testem._src %>'
+        src: '<%= constants.index %>'
+        dest: '<%= testem._dest %>'
+
+      all:
+        options:
+          launch_in_ci: [
+            'PhantomJS'
+            'Chrome'
+            'Firefox'
+            'Safari'
+          ]
+        src: '<%= constants.builded.jq_test_runners %>'
         dest: '<%= testem._dest %>'
 
       travis:
-        src: '<%= testem._src %>'
+        src: '<%= constants.index %>'
+
+    copy:
+      jq_test_runners:
+        files: [
+          src: '<%= constants.index %>'
+          dest: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'
+        ]
 
     replace:
       version:
@@ -67,6 +92,13 @@ module.exports = (grunt) ->
         replacements: [
           from: /(['"])0\.0\.0(['"])/
           to: '$10.0.0$2'
+        ]
+      jq_test_runners:
+        src: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'
+        overwrite: true
+        replacements: [
+          from: /(<script src=")assets\/jquery-1\.10\.2.min\.js(">)/
+          to: '$1<%= constants.jqueries[grunt.task.current.args[0]] %>$2'
         ]
 
     jshint:
@@ -83,6 +115,18 @@ module.exports = (grunt) ->
     'jshint'
     'replace:version'
     'uglify:production'
+  ]
+
+  grunt.registerTask 'testall', [
+    'copy:jq_test_runners:0'
+    'copy:jq_test_runners:1'
+    'copy:jq_test_runners:2'
+    'copy:jq_test_runners:3'
+    'replace:jq_test_runners:0'
+    'replace:jq_test_runners:1'
+    'replace:jq_test_runners:2'
+    'replace:jq_test_runners:3'
+    'testem:all'
   ]
 
 
