@@ -243,8 +243,53 @@ After:
 </div>
 ```
 
-- OMG! what is the dirty code! Sorry, this is a weak case.
-- If you hate it, then you can define custom filters and APIs.
+- Sorry, this is a weak case :persevere:
+- How the custom filter might help you.
+
+### 7. Register a custom filter
+
+Before:
+```
+<script>
+$().tempura("filter", "lower", function(str){
+  return str.toLowerCase();
+});
+</script>
+
+<div class="some-page">
+  <h1 data-bind="title">TITLE</h1>
+</div>
+
+<script>
+$(".some-page").tempura({
+  title: function(misc, filters){
+    return filters.lower(this.text());
+  }
+});
+</script>
+```
+
+After:
+```
+<div class="some-page">
+  <h1 data-bind="title">title</h1>
+</div>
+```
+
+- There are already some built-in filters.
+- By the way, the `misc` variable contains some informations too.
+
+### 8. Change configrations
+
+```
+$().tempura("config", {
+  bindingKey: "data-value",
+  quiet: false
+});
+```
+
+- `bindingKey` (default=`"data-bind"`): A HTML attribute name for data binding.
+- `quiet` (default=`true`): A on/off flag for throwing a error when you have a misuse probably.
 
 
 ## Development
