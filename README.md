@@ -9,6 +9,41 @@ In the same way you would make a delicious :fried_shrimp: Tempura :fried_shrimp:
 
 ## Features
 
-- Can use with keeping valid HTML.
-- Can overwrite only a necessary part of the whole.
-- Easy to use.
+- Can use with keeping original HTML
+  - It also means to be able to use something together with other templating engines.
+- Can overwrite only a necessary part of the whole
+  - Not destroy event handlers.
+  - It's high speed compared with to overwrite template wholly in many cases.
+- Easy to use
+  - Can write easily processing that is used commonly.
+  - .. but, I am giving up it in complex processing case. In this case, you must write by using raw jQuery.
+
+
+## Download
+
+- [Stable production version](https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.min.js)
+- [Stable development version](https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.js)
+- [Old releases](https://github.com/kjirou/jquery.tempura/releases)
+
+
+## Supported browsers
+
+- `IE10`, `IE9`, `IE8`, `IE7`
+- `Chrome`
+- `Firefox`
+- `Safari`
+- `Mobile Safari`
+- `PhantomJS`
+
+
+## Supported jQuery versions
+
+- `1.10.2`
+- `1.9.1`
+- `1.8.3`
+- `2.0.3`
+
+
+## License
+
+[MIT License](http://opensource.org/licenses/mit-license.php)
