@@ -5,7 +5,7 @@ if ($.fn.tempura !== undefined) return;
 
 var Tempura = {
 
-  VERSION: "0.9.0",
+  VERSION: "0.9.1",
 
   // Use "config" API if you want to overwrite them.
   _config: {
@@ -178,7 +178,7 @@ Tempura._apis.filter = function(filterName, filterFunc){
  */
 Tempura._apis.config = function(configs){
   $.extend(this.tempura._config, configs);
-}
+};
 
 
 //

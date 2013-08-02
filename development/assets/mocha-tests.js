@@ -189,13 +189,13 @@ describe("APIs", function(){
     });
 
     it("Change `bindingKey` config", function(){
-      $().tempura("config", { bindingKey:"data-my-value" })
+      $().tempura("config", { bindingKey:"data-my-value" });
 
       var $doc = createDocument();
       $doc.tempura({ title: "Title" });
       expect($doc.find("h1").text()).not.to.be("Title");
 
-      $doc.find("h1").attr("data-my-value", "title")
+      $doc.find("h1").attr("data-my-value", "title");
       $doc.tempura({ title: "Title2" });
       expect($doc.find("h1").text()).to.be("Title2");
     });
