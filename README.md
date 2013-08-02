@@ -323,3 +323,8 @@ $ npm install
 - `grunt test` is CI test by PhantomJS only.
 - `grunt testem:xb` is CI test by PhantomJS, Chrome, Firefox and Safari.
 - `grunt testall` executes XB test for each all supported jQuery versions.
+
+
+## Related Links
+
+- [The jQuery Plugin Registry - jQuery Tempura](http://plugins.jquery.com/tempura/)
