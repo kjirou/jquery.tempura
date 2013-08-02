@@ -54,6 +54,11 @@ describe("APIs", function(){
     $().tempura("config", defaultConfig);
   };
 
+  var defaultFilters = $.extend({}, $().tempura._filters);
+  var resetFilters = function(){
+    $().tempura._filters = $.extend({}, defaultFilters);
+  };
+
 
   describe("API Common", function(){
 
@@ -61,6 +66,10 @@ describe("APIs", function(){
       expect(function(){
         $().tempura("notexistedapi");
       }).throwException(/^Not .+notexistedapi/);
+    });
+
+    it("Method Chain", function(){
+      expect(createDocument().tempura({})).to.be.a($);
     });
 
   });
@@ -99,6 +108,14 @@ describe("APIs", function(){
         "title": function(){ return "Welcome"; }
       });
       expect($doc.find("h1").text()).to.be("Welcome");
+    });
+
+    it("Function value is binded to $node", function(){
+      var $doc = createDocument();
+      $doc.tempura("render", {
+        "title": function(){ return this.text().toLowerCase(); }
+      });
+      expect($doc.find("h1").text()).to.be("default title");
     });
 
     it("Render jQuery object value", function(){
@@ -175,6 +192,39 @@ describe("APIs", function(){
       expect(function(){
         $doc.tempura({ notExisted: "NotExisted" });
       }).throwException(/^Superfluous /);
+    });
+
+  });
+
+
+  describe("\"filter\" API", function(){
+
+    afterEach(function(){
+      resetFilters();
+    });
+
+    it("Use in function value / formatNumber", function(){
+      var $doc = createDocument();
+      $doc.tempura({
+        contents: function(misc, filters){
+          return filters.formatNumber(1234567.89);
+        }
+      });
+      expect($doc.find("#contents").text()).to.be("1,234,567.89");
+    });
+
+    it("Register a custom filter", function(){
+      $().tempura("filter", "myUpper", function(str){
+        return str.toUpperCase();
+      });
+
+      var $doc = createDocument();
+      $doc.tempura({
+        title: function(misc, filters){
+          return filters.myUpper(this.text());
+        }
+      });
+      expect($doc.find("h1").text()).to.be("DEFAULT TITLE");
     });
 
   });
