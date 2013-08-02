@@ -169,13 +169,13 @@ describe("APIs", function(){
         link: {
           // Notice: If you set `color:"red"` as test case,
           //           then Firefox just only returns "rgb(255, 0, 0)".
-          css: { fontSize:12, textAlign:"center" },
+          css: { fontSize:12, width:200 },
           attr: ["href", "/foo"],
           addClass: "your-link"
         }
       });
       expect($doc.find("a").css("fontSize")).to.be("12px");
-      expect($doc.find("a").css("textAlign")).to.be("center");
+      expect($doc.find("a").width()).to.be(200);
       expect($doc.find("a").attr("href")).to.be("/foo");
       expect($doc.find("a").hasClass("your-link")).to.ok();
     });
