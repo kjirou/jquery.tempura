@@ -126,7 +126,7 @@ Before:
 
 <script>
 $(".login-page").tempura({
-  title: {
+  "login-link": {
     css: { fontSize:12, textAlign:"center" },
     attr: ["href", "/login"],
     addClass: "link-style",
@@ -200,6 +200,51 @@ After:
 ```
 
 - `Function` is evaluated every rendering.
+- `this` in the function is binded to `$node`.
+
+### 6. Complex cases
+
+Before:
+```
+<div class="some-page">
+  <ul data-bind="members"></ul>
+</div>
+
+<script>
+var members = [
+  { id: 1, name: "Taro" },
+  { id: 2, name: "Jiro" },
+  { id: 3, name: "Saburo" }
+];
+$(".some-page").tempura({
+  members: function(){
+    if (members.length === 0) return false;
+
+    this.empty();
+    $that = this;
+    $.each(members, function(i, member){
+      $that.append(
+        $('<li>').text(member.name + ":" + member.id);
+      );
+    });
+  }
+});
+</script>
+```
+
+After:
+```
+<div class="some-page">
+  <ul data-bind="members">
+    <li>Taro:1</li>
+    <li>Jiro:2</li>
+    <li>Saburo:3</li>
+  </ul>
+</div>
+```
+
+- OMG! what is the dirty code! Sorry, this is a weak case.
+- If you hate it, then you can define custom filters and APIs.
 
 
 ## Development
