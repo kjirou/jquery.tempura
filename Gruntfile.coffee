@@ -73,7 +73,7 @@ module.exports = (grunt) ->
         dest: '<%= testem._dest %>'
 
       travis:
-        src: '<%= constants.index %>'
+        src: '<%= constants.builded.jq_test_runners %>'
 
     copy:
       jq_test_runners:
@@ -111,12 +111,6 @@ module.exports = (grunt) ->
 
 
   # Task sets
-  grunt.registerTask 'release', [
-    'jshint'
-    'replace:version'
-    'uglify:production'
-  ]
-
   grunt.registerTask 'testall', [
     'copy:jq_test_runners:0'
     'copy:jq_test_runners:1'
@@ -129,6 +123,23 @@ module.exports = (grunt) ->
     'testem:all'
   ]
 
+  grunt.registerTask 'travis', [
+    'copy:jq_test_runners:0'
+    'copy:jq_test_runners:1'
+    'copy:jq_test_runners:2'
+    'copy:jq_test_runners:3'
+    'replace:jq_test_runners:0'
+    'replace:jq_test_runners:1'
+    'replace:jq_test_runners:2'
+    'replace:jq_test_runners:3'
+    'testem:travis'
+  ]
+
+  grunt.registerTask 'release', [
+    'jshint'
+    'replace:version'
+    'uglify:production'
+  ]
 
   # Aliases
   grunt.registerTask 'test', 'testem:main'
