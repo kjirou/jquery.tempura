@@ -63,7 +63,7 @@ Tempura._createBindedNodesMap = function($container, bindingKey){
  *     attr: ["href", "/foo"],
  *     addClass: "your-link"
  *   }
- *  -> $el.css({fontSize:12, color:"center"})
+ *  -> $el.css({ fontSize:12, textAlign:"center" })
  *       .attr("href", "/foo")
  *       .addClass("your-link");
  *
