@@ -4,12 +4,29 @@ if ($.fn.tempura !== undefined) return;
 
 
 var Tempura = {
-  VERSION: "0.0.1",
-  bindingKey: "data-bind",
-  _filters: {},
-  _apis: {}//,
+
+  VERSION: "0.9.0",
+
+  // Use "config" API if you want to overwrite them.
+  _config: {
+
+    // A HTML attribute name for data binding.
+    // e.g. <div data-bind="dataKey">Binded area</div>
+    bindingKey: "data-bind",
+
+    // A on/off flag for throwing a error
+    //   when you have a misuse probably.
+    quiet: true
+  },
+
+  _apis: {},
+  _filters: {}
 };
 
+
+//
+// Inner functions
+//
 
 Tempura._isJQuery = function(obj){
   return obj instanceof $ && obj.jquery !== undefined;
@@ -39,55 +56,110 @@ Tempura._createBindedNodesMap = function($container, bindingKey){
 };
 
 
+//
+// APIs
+//
+// These are able to call like this:
+//
+//   $jqObj.tempura("api_name", apiArg1, apiArg2, ..)
+//
+
 /*
  * Render binded nodes by dictionary data
  *
  * e.g.
- *
- *  this=$('<h1 data-bind="foo"></h1><p data-bind="bar"></p>')
- *  data={ foo:"Title", bar:"Text" }
- *  -> $('<h1 data-bind="foo">Title</h1><p data-bind="bar">Text</p>')
+ *   $('<h1 data-bind="foo"></h1><p data-bind="bar"></p>')
+ *     .tempura("render", { foo:"Title", bar:"Text" })
  */
 Tempura._apis.render = function(data){
   var $that = this;
   var bindedNodesMap =
-    Tempura._createBindedNodesMap(this, this.tempura.bindingKey);
+    Tempura._createBindedNodesMap(this, this.tempura._config.bindingKey);
 
   $.each(data, function(dataKey, dataValue){
     var $node = bindedNodesMap[dataKey];
-    if ($node === undefined) return true;
+
+    // If superfluous data existed
+    if ($node === undefined) {
+      // Ignore in default
+      if ($that.tempura._config.quiet) {
+        return true;
+      } else {
+        throw new Error("Superfluous data existed");
+      }
+    }
 
     if ($.isFunction(dataValue)) {
-      dataValue = dataValue(
-        { node: $node, container: $that },
+      dataValue = dataValue.call(
+        $node,
+        { "$container": $that },
         $that.tempura._filters
       );
     }
 
+    // Change action by type of value
+
     // jQuery object
     if (Tempura._isJQuery(dataValue)) {
       $node.empty().append(dataValue);
-    // true
+    // True
     } else if (dataValue === true) {
       $node.show();
-    // false
+    // False
     } else if (dataValue === false) {
       $node.hide();
-    // undefined, null
+    // Undefined, Null
     } else if (dataValue === undefined || dataValue === null) {
-      // pass
-    // Others
+      /* Pass rendering */
+    // Function
+    } else if ($.isFunction(dataValue)) {
+      throw new Error("Not implemented");
+    // Array
+    } else if ($.isArray(dataValue)) {
+      throw new Error("Not implemented");
+    // Plain object
+    } else if ($.isPlainObject(dataValue)) {
+      throw new Error("Not implemented, coming soon");
+    // String, Number, and so on
     } else {
       $node.text(dataValue);
     }
   });
 };
 
-/* Register a filter */
+/*
+ * Register a custom filter that is usable in function values
+ *
+ * e.g.
+ *   $().tempura("filter", "lower",
+ *     function(str){ return str.toLowercase(); })
+ */
 Tempura._apis.filter = function(filterName, filterFunc){
   this.tempura._filters[filterName] = filterFunc;
 };
 
+/*
+ * Change configs
+ *
+ * e.g.
+ *   $().tempura("config", { bindingKey:"data-value" })
+ */
+Tempura._apis.config = function(configs){
+  $.extend(this.tempura._config, configs);
+}
+
+
+//
+// Filter presets
+//
+// These are able to call in function value like this:
+//
+//   $jqObj.tempura({
+//     amount: function(misc, filters){
+//       return filters.formatNumber(100000);
+//     }
+//   });
+//
 
 /* e.g. '1234567.89' -> '1,234,567.89' */
 Tempura._filters.formatNumber = function(numOrNumStr){
@@ -100,12 +172,21 @@ Tempura._filters.formatNumber = function(numOrNumStr){
 };
 
 
+/*
+ * Typical uses:
+ *
+ *   $jqObj.tempura({ foo:"FOO", bar:"BAR" })
+ *   $().tempura("config", { bindingKey:"data-your-custom-key" })
+ *
+ * Please look each API comment for details.
+ */
 $.fn.tempura = function(){
 
   var args = Array.prototype.slice.call(arguments);
   var apiName = args[0];
+
   // Basic pattern is `(apiName, apiArgs...)`.
-  // But if you omit the first argument `apiName`,
+  // But if you omit the first `apiName` argument,
   //   then it changes meaning to `(apiArgs...)`.
   var api, apiArgs;
   if ($.type(apiName) === "string") {
@@ -117,10 +198,12 @@ $.fn.tempura = function(){
   }
 
   if (api === undefined) {
-    throw new Error("Not defined api-name=" + apiName);
+    throw new Error("Not defined API=" + apiName);
   }
 
-  return api.apply(this, apiArgs);
+  api.apply(this, apiArgs);
+
+  return this;
 };
 
 $.extend($.fn.tempura, Tempura);
