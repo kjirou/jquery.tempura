@@ -11,7 +11,7 @@ var Tempura = {
   _config: {
 
     // A HTML attribute name for data binding.
-    // e.g. <div data-bind="dataKey">Binded area</div>
+    // e.g. <div data-bind="yourDataKey"></div>
     bindingKey: "data-bind",
 
     // A on/off flag for throwing a error
