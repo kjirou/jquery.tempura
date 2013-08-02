@@ -35,10 +35,16 @@ module.exports = (grunt) ->
           'development/jquery-2.0.3.html'
         ]
 
-    uglify:
-      production:
-        files:
-          '<%= constants.builded.js.minified %>': '<%= constants.js.src %>'
+    clean: [
+      '<%= constants.builded.jq_test_runners %>'
+    ]
+
+    copy:
+      jq_test_runners:
+        files: [
+          src: '<%= constants.index %>'
+          dest: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'
+        ]
 
     testem:
       _dest: 'log/tests.tap'
@@ -75,13 +81,6 @@ module.exports = (grunt) ->
       travis:
         src: '<%= constants.builded.jq_test_runners %>'
 
-    copy:
-      jq_test_runners:
-        files: [
-          src: '<%= constants.index %>'
-          dest: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'
-        ]
-
     replace:
       version:
         src: [
@@ -109,9 +108,15 @@ module.exports = (grunt) ->
         '<%= constants.js.test %>'
       ]
 
+    uglify:
+      production:
+        files:
+          '<%= constants.builded.js.minified %>': '<%= constants.js.src %>'
+
 
   # Task sets
   grunt.registerTask 'testall', [
+    'clean:0'
     'copy:jq_test_runners:0'
     'copy:jq_test_runners:1'
     'copy:jq_test_runners:2'
@@ -124,6 +129,7 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'travis', [
+    'clean:0'
     'copy:jq_test_runners:0'
     'copy:jq_test_runners:1'
     'copy:jq_test_runners:2'
@@ -143,7 +149,6 @@ module.exports = (grunt) ->
 
   # Aliases
   grunt.registerTask 'test', 'testem:main'
-  grunt.registerTask 'travis', 'testem:travis'
 
 
   # Shortcuts
