@@ -10,7 +10,7 @@ before_script:
   - testem launchers
 
 script:
-  - grunt travis
+  - grunt travis -v
 
 branches:
   except:
