@@ -45,6 +45,7 @@ describe("APIs", function(){
     html +=     '<span id="user_name" data-bind="isUser" style="display:none;">Taro</span>';
     html +=   '</p>';
     html +=   '<div id="contents" data-bind="contents">Default contents</div>';
+    html +=   '<a data-bind="link" href="#">Link</a>';
     html += '</div>';
     return $(html);
   };
@@ -162,6 +163,21 @@ describe("APIs", function(){
       expect($doc.find("#contents").text()).to.be("Default contents");
     });
 
+    it("Control the $node directly if value is plain object", function(){
+      var $doc = createDocument();
+      $doc.tempura("render", {
+        link: {
+          css: { fontSize:12, color:"red" },
+          attr: ["href", "/foo"],
+          addClass: "your-link"
+        }
+      });
+      expect($doc.find("a").css("fontSize")).to.be("12px");
+      expect($doc.find("a").css("color")).to.be("red");
+      expect($doc.find("a").attr("href")).to.be("/foo");
+      expect($doc.find("a").hasClass("your-link")).to.ok();
+    });
+
     it("`tempura(\"render\", {})` is aliased to `tempura({})`", function(){
       var $doc = createDocument();
       $doc.tempura({
@@ -186,12 +202,16 @@ describe("APIs", function(){
       var $doc = createDocument();
       // Not throw a error
       $doc.tempura({ notExisted: "NotExisted" });
+      $doc.tempura({ title: { notExisted:"" } });
 
       $().tempura("config", { quiet:false });
-      // Throw a error
+      // Throw errors
       expect(function(){
         $doc.tempura({ notExisted: "NotExisted" });
       }).throwException(/^Superfluous /);
+      expect(function(){
+        $doc.tempura({ title: { notExisted:"" } });
+      }).throwException(/notExisted/);
     });
 
   });

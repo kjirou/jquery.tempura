@@ -55,6 +55,38 @@ Tempura._createBindedNodesMap = function($container, bindingKey){
   return bindedNodesMap;
 };
 
+/*
+ * e.g.
+ *
+ *   dict={
+ *     css: {fontSize:12,color:"red"},
+ *     attr: ["href", "/foo"],
+ *     addClass: "your-link"
+ *   }
+ *  -> $el.css({fontSize:12, color:"red"})
+ *       .attr("href", "/foo")
+ *       .addClass("your-link");
+ *
+ * Notice: Excecution order is not guaranteed.
+ */
+Tempura._controlJQueryObjectByDict = function($el, dict){
+  $.each(dict, function(methodName, params){
+    if (methodName in $el === false) {
+      if ($el.tempura._config.quiet) {
+        return true;
+      } else {
+        throw new Error("jQuery object dosen't have the method=" + methodName);
+      }
+    }
+
+    if ($.isArray(params) === false) {
+      params = [params];
+    }
+
+    $el[methodName].apply($el, params);
+  });
+};
+
 
 //
 // APIs
@@ -119,7 +151,7 @@ Tempura._apis.render = function(data){
       throw new Error("Not implemented");
     // Plain object
     } else if ($.isPlainObject(dataValue)) {
-      throw new Error("Not implemented, coming soon");
+      Tempura._controlJQueryObjectByDict($node, dataValue);
     // String, Number, and so on
     } else {
       $node.text(dataValue);
