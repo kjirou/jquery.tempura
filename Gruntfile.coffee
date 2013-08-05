@@ -86,12 +86,13 @@ module.exports = (grunt) ->
         src: [
           'package.json'
           'tempura.jquery.json'
+          'bower.json'
           '<%= constants.js.src %>'
         ]
         overwrite: true
         replacements: [
-          from: /(['"])0\.9\.1(['"])/
-          to: '$10.9.2$2'
+          from: /(['"])0\.9\.2(['"])/
+          to: '$10.9.3$2'
         ]
       jq_test_runners:
         src: '<%= constants.builded.jq_test_runners[grunt.task.current.args[0]] %>'

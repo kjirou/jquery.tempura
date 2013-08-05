@@ -1,0 +1,11 @@
+{
+  "name": "jquery.tempura",
+  "version": "0.9.3",
+  "main": "jquery.tempura.js",
+  "ignore": [
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
