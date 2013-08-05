@@ -71,7 +71,7 @@ Before:
 
 <script>
 $(".welcome-page").tempura({
-  title: "Canged Title",
+  title: "Changed Title",
   contents: "Changed contents"
 });
 </script>
@@ -86,7 +86,7 @@ After:
 </div>
 ```
 
-- The `data-bind="dataKey"` is related to `$(selector).tempura({ dataKey:".." })`.
+- The setting `data-bind="dataKey"` node is rendered by `$(selector).tempura({ dataKey:".." })`.
 - `string` or `number` values changes node by `$node.text(value)`.
 - If you don't assign data to binded node, then the node is not effected.
 
@@ -145,10 +145,10 @@ After:
 </div>
 ```
 
-- `{} (Plain object)` means that node is changed as jQeury object.
+- A `{}`(Plain Object) changes the node as a jQeury object.
 - The format is `{ methodName: args, methodName2: args2, .. }`.
-  - The `args` besides `Array` is passed to method as a single arg.
-  - If `args` is `Array`, then they are passed to method as plural args.
+  - The args besides `Array` is passed to method as a single arg.
+  - If args is `Array`, then they are passed to method as plural args.
 
 ### 4. Render HTML
 
@@ -172,7 +172,8 @@ After:
 </div>
 ```
 
-- `$jQueryObject` means `$node.empty().append($jQueryObject)`.
+- `$jQueryObject` replaces child nodes.
+  - It works to equal `$node.empty().append($jQueryObject)`.
 - To be exact, there is no way to write the HTML.
 
 ### 5. Dynamic evaluation
@@ -202,7 +203,28 @@ After:
 - `Function` is evaluated every rendering.
 - `this` in the function is binded to `$node`.
 
-### 6. Complex cases
+
+### 6. Not rendering
+
+Before:
+```
+<div class="some-page">
+  <span data-bind="greeting">Hello, guest!</span>
+</div>
+
+<script>
+$(".some-page").tempura({
+  greeting: function(){
+    if (!isLoggedIn) return;
+    return "Hello, member!";
+  }
+});
+</script>
+```
+
+- `undefined` or `null` are passing through the rendering.
+
+### 7. Complex cases
 
 Before:
 ```
@@ -246,7 +268,7 @@ After:
 - Sorry, this is a weak case :persevere:
 - How the custom filter might help you.
 
-### 7. Register a custom filter
+### 8. Register a custom filter
 
 Before:
 ```
@@ -279,7 +301,7 @@ After:
 - There are already some built-in filters.
 - By the way, the `misc` variable contains some informations too.
 
-### 8. Change configrations
+### 9. Change configrations
 
 ```
 $().tempura("config", {
