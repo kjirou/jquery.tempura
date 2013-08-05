@@ -7,6 +7,8 @@ var Tempura = {
 
   VERSION: "0.9.3",
 
+  BUILTIN_IGNORED: ":ignored",
+
   // Use "config" API if you want to overwrite them.
   _config: {
 
@@ -43,9 +45,21 @@ Tempura._isJQuery = function(obj){
  *   -> {foo:$p, bar:$div}
  */
 Tempura._createBindedNodesMap = function($container, bindingKey){
-  var bindedNodes = $container.find("[" + bindingKey + "]");
+  //
+  // Note: Why is $ignoredNodes not created by `$allBindedNodes.filter`?
+  //
+  // Actually I want to use this for speed.
+  // But `$allBindedNodes.filter('selector *')` means
+  //   to include all nodes in $container.
+  //
+  var $allBindedNodes = $container.find("[" + bindingKey + "]");
+  var $ignoredNodes = $container
+    .find('[' + bindingKey + '="' + Tempura.BUILTIN_IGNORED + '"], ' +
+      '[' + bindingKey + '="' + Tempura.BUILTIN_IGNORED + '"] *');
+  var $bindedNodes = $allBindedNodes.not($ignoredNodes);
+
   var bindedNodesMap = {};
-  $.each(bindedNodes, function(i, node){
+  $.each($bindedNodes, function(i, node){
     var $node = $(node);
     var attrValue = $node.attr(bindingKey);
     if (attrValue !== undefined && attrValue !== false) {

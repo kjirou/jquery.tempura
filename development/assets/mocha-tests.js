@@ -245,6 +245,57 @@ describe("APIs", function(){
   });
 
 
+  describe("Special Binding Values", function(){
+
+    it("\":ignored\"", function(){
+      var h = '';
+      h += '<div>';
+      h +=   '<b data-bind="foo" id="foo">1</b>';
+      h +=   '<div data-bind=":ignored" id="ignored">';
+      h +=     '<b data-bind="bar" id="bar">2</b>';
+      h +=     '<div data-bind=":ignored" id="ignored2">';
+      h +=       '<b data-bind="baz" id="baz">3</b>';
+      h +=     '</div>';
+      h +=   '</div>';
+      h += '</div>';
+      var $doc = $(h);
+
+      // Don't update under #ignored
+      $doc.tempura({
+        "foo": "123",
+        "bar": "456",
+        "baz": "789"
+      });
+      expect($doc.find("#foo").text()).to.be("123");
+      expect($doc.find("#bar").text()).to.be("2");
+      expect($doc.find("#baz").text()).to.be("3");
+
+      // Don't update under #ignored2
+      $doc.find("#ignored").tempura({
+        "foo": "123",
+        "bar": "456",
+        "baz": "789"
+      });
+      expect($doc.find("#foo").text()).to.be("123");
+      expect($doc.find("#bar").text()).to.be("456");
+      expect($doc.find("#baz").text()).to.be("3");
+
+      // Delete ignore settings
+      $doc.find("#ignored").removeAttr("data-bind");
+      $doc.find("#ignored2").removeAttr("data-bind");
+      $doc.tempura({
+        "foo": "abc",
+        "bar": "def",
+        "baz": "ghi"
+      });
+      expect($doc.find("#foo").text()).to.be("abc");
+      expect($doc.find("#bar").text()).to.be("def");
+      expect($doc.find("#baz").text()).to.be("ghi");
+    });
+
+  });
+
+
   describe("\"filter\" API", function(){
 
     afterEach(function(){
@@ -276,6 +327,7 @@ describe("APIs", function(){
     });
 
   });
+
 
 });
 
