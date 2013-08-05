@@ -25,6 +25,11 @@ In the same way you would make a delicious :fried_shrimp: Tempura :fried_shrimp:
 - [Stable development version](https://raw.github.com/kjirou/jquery.tempura/master/jquery.tempura.js)
 - [Old releases](https://github.com/kjirou/jquery.tempura/releases)
 
+Or, if you can use `bower`:
+```
+$ bower install jquery.tempura
+```
+
 
 ## Supported browsers
 
