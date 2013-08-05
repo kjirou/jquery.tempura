@@ -195,7 +195,7 @@ describe("APIs", function(){
       // Function
       expect(function(){
         $doc.tempura("render", {
-          "title": function(){ return function(){} }
+          "title": function(){ return function(){}; }
         });
       }).to.throwException(/^Function/);
       // Array
