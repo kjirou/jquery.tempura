@@ -350,3 +350,4 @@ $ npm install
 ## Related Links
 
 - [The jQuery Plugin Registry - jQuery Tempura](http://plugins.jquery.com/tempura/)
+- [日本語紹介記事](http://blog.kjirou.net/p/3505)
