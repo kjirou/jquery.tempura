@@ -273,7 +273,30 @@ After:
 - Sorry, this is a weak case :persevere:
 - How the custom filter might help you.
 
-### 8. Register a custom filter
+### 8. `:ignored` built-in value
+
+```
+<div class="layout">
+  <span data-bind="foo">1</span>
+  <div class="partial" data-bind=":ignored">
+    <span data-bind="bar">2</span>
+  </div>
+</div>
+
+<script>
+$(".layout").tempura({
+  foo: 11,  // Update
+  bar: 22   // Not update
+});
+$(".partial").tempura({
+  bar: 22 // Update
+});
+</script>
+```
+
+- `:ignored` protects childrens from unwanted update by outside.
+
+### 9. Register a custom filter
 
 Before:
 ```
@@ -306,7 +329,7 @@ After:
 - There are already some built-in filters.
 - By the way, the `misc` variable contains some informations too.
 
-### 9. Change configrations
+### 10. Change configrations
 
 ```
 $().tempura("config", {
