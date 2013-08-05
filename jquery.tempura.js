@@ -148,10 +148,10 @@ Tempura._apis.render = function(data){
       /* Pass processing, silence is gold */
     // Function
     } else if ($.isFunction(dataValue)) {
-      throw new Error("Not implemented");
+      throw new Error("Function=`" + dataValue + "` is not implemented value type");
     // Array
     } else if ($.isArray(dataValue)) {
-      throw new Error("Not implemented");
+      throw new Error("Array=`" + dataValue + "` is not implemented value type");
     // Plain object
     } else if ($.isPlainObject(dataValue)) {
       Tempura._controlJQueryObjectByDict($node, dataValue);

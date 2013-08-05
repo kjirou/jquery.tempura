@@ -190,6 +190,22 @@ describe("APIs", function(){
       expect($doc.find("a").hasClass("your-link")).to.ok();
     });
 
+    it("Throw errors if you set not implemented value types", function(){
+      var $doc = createDocument();
+      // Function
+      expect(function(){
+        $doc.tempura("render", {
+          "title": function(){ return function(){} }
+        });
+      }).to.throwException(/^Function/);
+      // Array
+      expect(function(){
+        $doc.tempura("render", {
+          "title": []
+        });
+      }).to.throwException(/^Array/);
+    });
+
     it("`tempura(\"render\", {})` is aliased to `tempura({})`", function(){
       var $doc = createDocument();
       $doc.tempura({
