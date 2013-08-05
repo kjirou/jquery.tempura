@@ -124,7 +124,10 @@ Tempura._apis.render = function(data){
     if ($.isFunction(dataValue)) {
       dataValue = dataValue.call(
         $node,
-        { "$container": $that },
+        {
+          "$node": $node,
+          "$container": $that
+        },
         $that.tempura._filters
       );
     }

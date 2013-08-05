@@ -119,6 +119,16 @@ describe("APIs", function(){
       expect($doc.find("h1").text()).to.be("default title");
     });
 
+    it("Function value is passed misc infos at evaluation", function(){
+      var $doc = createDocument();
+      $doc.tempura("render", {
+        "title": function(misc){
+          expect(misc.$node).to.be(this);
+          expect(misc.$container).to.be($doc);
+        }
+      });
+    });
+
     it("Render jQuery object value", function(){
       var $doc = createDocument();
       $doc.tempura("render", {
