@@ -5,7 +5,7 @@ if ($.fn.tempura !== undefined) return;
 
 var Tempura = {
 
-  VERSION: "0.9.3",
+  VERSION: "0.9.4",
 
   BUILTIN_IGNORED: ":ignored",
 
