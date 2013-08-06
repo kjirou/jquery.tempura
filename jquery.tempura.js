@@ -164,8 +164,12 @@ Tempura._apis.render = function(data){
     } else if ($.isFunction(dataValue)) {
       throw new Error("Function=`" + dataValue + "` is not implemented value type");
     // Array
+    // It is expected to contain only jQuery objects the same as jQuery query set
     } else if ($.isArray(dataValue)) {
-      throw new Error("Array=`" + dataValue + "` is not implemented value type");
+      $node.empty();
+      $.each(dataValue, function(i, $child){
+        $node.append($child);
+      });
     // Plain object
     } else if ($.isPlainObject(dataValue)) {
       Tempura._controlJQueryObjectByDict($node, dataValue);

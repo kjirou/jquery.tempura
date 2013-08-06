@@ -129,7 +129,7 @@ describe("APIs", function(){
       });
     });
 
-    it("Render jQuery object value", function(){
+    it("Render by jQuery object", function(){
       var $doc = createDocument();
       $doc.tempura("render", {
         "title": $('<strong>Strong Title</strong>')
@@ -141,6 +141,34 @@ describe("APIs", function(){
         "title": $('<b>Strong Title</b>')
       });
       expect($doc.find("h1 strong").length).to.be(0);
+    });
+
+    it("Render by jQuery query set", function(){
+      var $doc = createDocument();
+      $doc.tempura("render", {
+        "contents": $('<p>A</p><p>B</p><p>C</p>').filter('*')
+      });
+      expect($doc.find("div").html()).to.be("<p>A</p><p>B</p><p>C</p>");
+    });
+
+    it("Render by Array", function(){
+      var $doc = createDocument();
+      $doc.tempura("render", {
+        "contents": [
+          $('<p>').text('AA'),
+          $('<p>').text('BB'),
+          $('<p>').text('CC')
+        ]
+      });
+      expect($doc.find("div").html()).to.be("<p>AA</p><p>BB</p><p>CC</p>");
+
+      // Working empty()?
+      $doc.tempura("render", {
+        "contents": [
+          $('<p>').text('DD')
+        ]
+      });
+      expect($doc.find("div").html()).to.be("<p>DD</p>");
     });
 
     it("Show node if value is true", function(){
@@ -198,12 +226,6 @@ describe("APIs", function(){
           "title": function(){ return function(){}; }
         });
       }).to.throwException(/^Function/);
-      // Array
-      expect(function(){
-        $doc.tempura("render", {
-          "title": []
-        });
-      }).to.throwException(/^Array/);
     });
 
     it("`tempura(\"render\", {})` is aliased to `tempura({})`", function(){
