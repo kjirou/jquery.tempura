@@ -121,17 +121,17 @@ After:
 
 - `true` means `$node.show()`, `false` means `$node.hide()`.
 
-### 3. Change as a jQuery object
+### 3. Change node as a jQuery object
 
 Before:
 ```
 <div class="login-page">
-  <a data-bind="login-link" href="#">Logged in</a>
+  <a data-bind="loginLink" href="#">Logged in</a>
 </div>
 
 <script>
 $(".login-page").tempura({
-  "login-link": {
+  loginLink: {
     css: { fontSize:12, textAlign:"center" },
     attr: ["href", "/login"],
     addClass: "link-style",
@@ -181,7 +181,40 @@ After:
   - It works to equal `$node.empty().append($jQueryObject)`.
 - To be exact, there is no way to write the HTML.
 
-### 5. Dynamic evaluation
+### 5. Append nodes
+
+Before:
+```
+<div class="some-page">
+  <div data-bind="byJQuery"></div>
+  <div data-bind="byArray"></div>
+</div>
+
+<script>
+$(".some-page").tempura({
+  byJQuery: $('<p>1</p><p>2</p>').filter('*'),
+  byArray: [
+    $('<p>').text("A"),
+    $('<p>').text("B")
+  ]
+});
+</script>
+```
+
+After:
+```
+<div class="some-page">
+  <div data-bind="byJQuery"><p>A</p><p>B</p></div>
+  <div data-bind="byArray"><p>1</p><p>2</p></div>
+</div>
+```
+
+- `$jQueryQuerySet` replaces child nodes the same as the rendering HTML.
+  - The "QuerySet" is jQuery object to be return by `$el.find()`, `$el.filter()` and so on.
+  - Ref) [jQuery API Documentation - Traversing](http://api.jquery.com/category/traversing/)
+- Also `Array` is parsed like it.
+
+### 6. Dynamic evaluation
 
 Before:
 ```
@@ -209,7 +242,7 @@ After:
 - `this` in the function is binded to `$node`.
 
 
-### 6. Not rendering
+### 7. Not rendering
 
 Before:
 ```
@@ -229,7 +262,7 @@ $(".some-page").tempura({
 
 - `undefined` or `null` are passing through the rendering.
 
-### 7. Complex cases
+### 8. Complex cases
 
 Before:
 ```
@@ -273,7 +306,7 @@ After:
 - Sorry, this is a weak case :persevere:
 - How the custom filter might help you.
 
-### 8. `:ignored` built-in value
+### 9. `:ignored` built-in value
 
 ```
 <div class="layout">
@@ -296,7 +329,7 @@ $(".partial").tempura({
 
 - `:ignored` protects childrens from unwanted update by outside.
 
-### 9. Register a custom filter
+### 10. Register a custom filter
 
 Before:
 ```
@@ -329,7 +362,7 @@ After:
 - There are already some built-in filters.
 - By the way, the `misc` variable contains some informations too.
 
-### 10. Change configrations
+### 11. Change configrations
 
 ```
 $().tempura("config", {
