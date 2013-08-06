@@ -121,7 +121,7 @@ After:
 
 - `true` means `$node.show()`, `false` means `$node.hide()`.
 
-### 3. Change node as a jQuery object
+### 3. Change binded node as a jQuery object
 
 Before:
 ```
@@ -204,8 +204,8 @@ $(".some-page").tempura({
 After:
 ```
 <div class="some-page">
-  <div data-bind="byJQuery"><p>A</p><p>B</p></div>
-  <div data-bind="byArray"><p>1</p><p>2</p></div>
+  <div data-bind="byJQuery"><p>1</p><p>2</p></div>
+  <div data-bind="byArray"><p>A</p><p>B</p></div>
 </div>
 ```
 
