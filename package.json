@@ -23,9 +23,11 @@
     "grunt-text-replace": "*",
     "mocha": "*",
     "expect.js": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "testem": "*"
   },
   "scripts": {
-    "test": "grunt testem:main"
+    "test": "grunt testem:main",
+    "testem": "node_modules/testem/testem.js"
   }
 }

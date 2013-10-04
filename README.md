@@ -383,7 +383,7 @@ $().tempura("config", {
 - `PhantomJS`, e.g. `brew install phantomjs`
 
 ```
-$ npm install -g grunt-cli testem
+$ npm install -g grunt-cli
 ```
 
 ### Deploy
@@ -402,7 +402,7 @@ $ npm install
 ### Testing
 
 - Open [development/index.html](development/index.html)
-- Or, execute `testem` or `testem server`, after that, open [http://localhost:7357/](http://localhost:7357/)
+- Or, execute `npm run testem` and open [http://localhost:7357/](http://localhost:7357/)
 - `grunt test` is CI test by PhantomJS only.
 - `grunt testem:xb` is CI test by PhantomJS, Chrome, Firefox and Safari.
 - `grunt testall` executes XB test for each all supported jQuery versions.
