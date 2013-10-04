@@ -20,6 +20,7 @@
   <script src="assets/mocha-tests.js"></script>
   <script>
     mocha.checkLeaks();
+    mocha.globals(['jQuery*']);
     mocha.run();
   </script>
 </body>
